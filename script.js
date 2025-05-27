@@ -1,10 +1,10 @@
 const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "YOUR_AUTH_DOMAIN",
-    projectId: "YOUR_PROJECT_ID",
-    storageBucket: "YOUR_STORAGE_BUCKET",
-    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-    appId: "YOUR_APP_ID"
+    apiKey: "AIzaSyCpqZEO9HLaizLvY1d8RaiZc49jcmgjsh0",
+    authDomain: "ocean-doces.firebaseapp.com",
+    projectId: "ocean-doces",
+    storageBucket: "605874793180",
+    messagingSenderId: "1:605874793180:web:6830ac62455f22ce5be219",
+    appId: "G-V87SDQ4RJP"
 };
 
 firebase.initializeApp(firebaseConfig);
