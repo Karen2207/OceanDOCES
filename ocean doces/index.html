@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minha Loja de Bombons e Trufas</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <div class="navbar-brand">
+                <h1>Ocean Doces</h1>
+            </div>
+
+            <button class="menu-toggle" aria-label="Abrir menu">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <div class="navbar-links">
+                <ul class="navbar-categories">
+                    <li><a href="#" data-category="bombons">Bombons</a></li>
+                    <li><a href="#" data-category="trufas">Trufas</a></li>
+                    <li><a href="#" data-category="especiais">Especiais</a></li>
+                </ul>
+                <div class="navbar-search">
+                    <input type="text" id="searchInput" placeholder="Buscar produtos...">
+                    <button id="searchButton">Buscar</button>
+                </div>
+
+                <div class="navbar-auth">
+                    <button id="loginButton">Login</button>
+
+                    <button id="manageProductsButton" style="display: none;">Gerenciar Produtos</button>
+                    <button id="manageClientsButton" style="display: none;">Gerenciar Clientes</button>
+                    
+                    <div class="user-dropdown" style="display: none;">
+                        <button id="userDropdownButton">
+                            <span id="userName"></span> <i class="fas fa-caret-down"></i>
+                        </button>
+                        <div class="dropdown-content">
+                            <a href="#" id="logoutButton">Sair</a>
+                        </div>
+                    </div>
+                    <button id="logoutButtonMobile" class="logout-mobile" style="display: none;">Sair</button>
+                </div>
+
+            </div>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="product-listing" id="productListing"></section>
+
+        <section class="search-results" id="searchResults" style="display: none;">
+            <h2>Resultados da Busca</h2>
+            <div id="searchResultsContent"></div>
+            <p id="noResultsMessage" style="display: none; color: red;">Nenhum produto encontrado!</p>
+            <p id="emptySearchMessage" style="display: none; color: orange;">Por favor, digite algo para buscar!</p>
+        </section>
+
+
+        <div id="productManagementContainer" style="display: none;">
+            <section class="management-section">
+                <div class="form-container">
+                    <h1>CADASTRO DE PRODUTOS</h1>
+                    <input type="text" id="codigo" placeholder="Código" required>
+                    <input type="text" id="produto" placeholder="Nome do Produto" required>
+                    <input type="text" id="categoria" placeholder="Categoria" required>
+                    <input type="number" id="quantidade" placeholder="Quantidade" required>
+                    <input type="number" step="0.01" id="valor" placeholder="Valor do Produto" required>
+                    <input id="cadastrarProduto" type="submit" value="Cadastrar Produto">
+                </div>
+
+                <div class="form-container">
+                    <h1>BUSCA E ATUALIZAÇÃO DE PRODUTOS</h1>
+                    <input type="text" id="idProduto" placeholder="ID do Produto" required>
+                    <input id="buscarProduto" type="submit" value="Buscar Produto" class="button-search">
+
+                    <input type="text" id="dadoProduto" placeholder="Nome do Produto">
+                    <input type="text" id="dadoCategoria" placeholder="Categoria">
+                    <input type="number" id="dadoQuantidade" placeholder="Quantidade">
+                    <input type="number" step="0.01" id="dadoValor" placeholder="Valor do Produto">
+                    <input id="atualizarProduto" type="submit" value="Atualizar Produto" class="button-update">
+
+                    <input id="deletarProduto" type="submit" value="Deletar Produto" class="button-delete">
+                </div>
+            </section>
+        </div>
+
+
+        <div id="clientManagementContainer" style="display: none;">
+            <section class="management-section">
+                <div class="form-container">
+                    <h1>CADASTRO DE CLIENTES</h1>
+                    <input type="text" id="idCliente" placeholder="ID do Cliente" required>
+                    <input type="text" id="nomeCliente" placeholder="Nome do Cliente" required>
+                    <input type="email" id="emailCliente" placeholder="Email do Cliente" required>
+                    <input type="text" id="telefoneCliente" placeholder="Telefone" required>
+                    <input id="cadastrarCliente" type="submit" value="Cadastrar Cliente">
+                </div>
+
+                <div class="form-container">
+                    <h1>BUSCA E ATUALIZAÇÃO DE CLIENTES</h1>
+                    <input type="text" id="buscarIdCliente" placeholder="ID do Cliente" required>
+                    <input id="buscarCliente" type="submit" value="Buscar Cliente" class="button-search">
+
+                    <input type="text" id="dadoNomeCliente" placeholder="Nome do Cliente">
+                    <input type="email" id="dadoEmailCliente" placeholder="Email do Cliente">
+                    <input type="text" id="dadoTelefoneCliente" placeholder="Telefone">
+                    <input id="atualizarCliente" type="submit" value="Atualizar Cliente" class="button-update">
+
+                    <input id="deletarCliente" type="submit" value="Deletar Cliente" class="button-delete">
+                </div>
+            </section>
+        </div>
+
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Ocean Doces. Todos os direitos reservados.</p>
+        <p>Endereço: Rua dos Doces, 123 - Cidade Fantasia - Estado ***</p>
+        <p>Contato: (XX) XXXX-XXXX | contato@oceandoces1.com</p>
+    </footer>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <h2>Login</h2>
+            <form id="loginForm">
+                <label for="loginEmail">Email:</label>
+                <input type="email" id="loginEmail" placeholder="seuemail@exemplo.com" required>
+                <label for="loginPassword">Senha:</label>
+                <input type="password" id="loginPassword" placeholder="suasenha" required>
+                <button type="submit">Entrar</button>
+                <p id="loginError" style="color: red; display: none;"></p>
+                <a href="#" id="forgotPasswordLink">Esqueceu a senha?</a><br>
+                <a href="#" id="createAccountLink">Criar conta</a>
+            </form>
+        </div>
+    </div>
+
+
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth-compat.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-database-compat.js"></script>
+    <script type="module" src="script.js"></script>
+</body>
+</html>
