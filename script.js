@@ -7,8 +7,12 @@ const firebaseConfig = {
     appId: "G-V87SDQ4RJP"
 };
 
+
 firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+const auth = firebase.auth(); 
+
+
+const db = firebase.database();
 
 const products = [
     {
@@ -87,6 +91,12 @@ const emptySearchMessage = document.getElementById('emptySearchMessage');
 const navbarCategories = document.querySelector('.navbar-categories');
 const loginButton = document.getElementById('loginButton');
 
+
+const manageProductsButton = document.getElementById('manageProductsButton');
+const manageClientsButton = document.getElementById('manageClientsButton');
+const productManagementContainer = document.getElementById('productManagementContainer');
+const clientManagementContainer = document.getElementById('clientManagementContainer');
+
 const userDropdown = document.querySelector('.user-dropdown');
 const userDropdownButton = document.getElementById('userDropdownButton');
 const dropdownContent = document.querySelector('.dropdown-content');
@@ -102,6 +112,36 @@ const loginPasswordInput = document.getElementById('loginPassword');
 const loginError = document.getElementById('loginError');
 const menuToggle = document.querySelector('.menu-toggle');
 const navbarLinks = document.querySelector('.navbar-links');
+
+
+const codigo = document.getElementById('codigo');
+const produto = document.getElementById('produto');
+const categoria = document.getElementById('categoria');
+const quantidade = document.getElementById('quantidade');
+const valor = document.getElementById('valor');
+const idProduto = document.getElementById('idProduto');
+const dadoProduto = document.getElementById('dadoProduto');
+const dadoCategoria = document.getElementById('dadoCategoria');
+const dadoQuantidade = document.getElementById('dadoQuantidade');
+const dadoValor = document.getElementById('dadoValor');
+const cadastrarProduto = document.getElementById('cadastrarProduto');
+const buscarProduto = document.getElementById('buscarProduto');
+const atualizarProduto = document.getElementById('atualizarProduto');
+const deletarProduto = document.getElementById('deletarProduto');
+
+
+const idCliente = document.getElementById('idCliente');
+const nomeCliente = document.getElementById('nomeCliente');
+const emailCliente = document.getElementById('emailCliente');
+const telefoneCliente = document.getElementById('telefoneCliente');
+const cadastrarCliente = document.getElementById('cadastrarCliente');
+const buscarIdCliente = document.getElementById('buscarIdCliente');
+const buscarCliente = document.getElementById('buscarCliente');
+const dadoNomeCliente = document.getElementById('dadoNomeCliente');
+const dadoEmailCliente = document.getElementById('dadoEmailCliente');
+const dadoTelefoneCliente = document.getElementById('dadoTelefoneCliente');
+const atualizarCliente = document.getElementById('atualizarCliente');
+const deletarCliente = document.getElementById('deletarCliente');
 
 function createProductCard(product) {
     const productCard = document.createElement('div');
@@ -136,6 +176,9 @@ function performSearch(query) {
     searchResultsContent.innerHTML = '';
     noResultsMessage.style.display = 'none';
     emptySearchMessage.style.display = 'none';
+    productManagementContainer.style.display = 'none';
+    clientManagementContainer.style.display = 'none';
+
 
     if (query.trim() === '') {
         emptySearchMessage.style.display = 'block';
@@ -167,6 +210,9 @@ navbarCategories.addEventListener('click', (e) => {
         searchResults.style.display = 'none';
         productListing.style.display = 'grid';
         searchInput.value = '';
+
+        productManagementContainer.style.display = 'none';
+        clientManagementContainer.style.display = 'none';
     }
 });
 
@@ -199,6 +245,7 @@ window.addEventListener('click', (event) => {
         loginModal.style.display = 'none';
     }
 });
+
 
 loginForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -251,6 +298,11 @@ auth.onAuthStateChanged(user => {
         userDropdown.style.display = 'inline-block';
         userNameSpan.textContent = user.email.split('@')[0];
         userDropdown.classList.remove('active');
+        
+        
+        manageProductsButton.style.display = 'inline-block';
+        manageClientsButton.style.display = 'inline-block';
+
         if (window.innerWidth <= 768) {
             logoutButtonMobile.style.display = 'inline-block';
         } else {
@@ -261,7 +313,14 @@ auth.onAuthStateChanged(user => {
         userDropdown.style.display = 'none';
         userNameSpan.textContent = '';
         userDropdown.classList.remove('active');
+        
+
+        manageProductsButton.style.display = 'none';
+        manageClientsButton.style.display = 'none';
+        
         logoutButtonMobile.style.display = 'none';
+        productManagementContainer.style.display = 'none';
+        clientManagementContainer.style.display = 'none';
     }
 });
 
@@ -289,3 +348,184 @@ window.addEventListener('resize', () => {
         }
     }
 });
+
+
+manageProductsButton.addEventListener('click', () => {
+    if (productManagementContainer.style.display === 'none') {
+        productManagementContainer.style.display = 'block';
+        clientManagementContainer.style.display = 'none'; 
+        productListing.style.display = 'none';
+        searchResults.style.display = 'none';
+    } else {
+        productManagementContainer.style.display = 'none';
+        productListing.style.display = 'grid'; 
+    }
+});
+
+
+manageClientsButton.addEventListener('click', () => {
+    if (clientManagementContainer.style.display === 'none') {
+        clientManagementContainer.style.display = 'block';
+        productManagementContainer.style.display = 'none';
+        productListing.style.display = 'none';
+        searchResults.style.display = 'none';
+    } else {
+        clientManagementContainer.style.display = 'none';
+        productListing.style.display = 'grid'; 
+    }
+});
+
+
+
+function AddProduto(){
+    firebase.database().ref('Produtos/' + codigo.value).set({
+        codigo: codigo.value,
+        produto: produto.value,
+        categoria: categoria.value,
+        quantidade: parseInt(quantidade.value),
+        valor: parseFloat(valor.value)
+    }).then(()=>{
+        codigo.value = '';
+        produto.value = '';
+        categoria.value = '';
+        quantidade.value = '';
+        valor.value = '';
+        alert("Produto Cadastrado!");
+    }).catch((error)=>{
+        console.error(error);
+        alert('Produto Não Cadastrado!');
+    });
+}
+
+function PesquisarProduto(){
+    firebase.database().ref('Produtos/' + idProduto.value).once('value')
+        .then((snapshot) => {
+            if(snapshot.exists()){
+                dadoProduto.value = snapshot.val().produto;
+                dadoCategoria.value = snapshot.val().categoria;
+                dadoQuantidade.value = snapshot.val().quantidade;
+                dadoValor.value = snapshot.val().valor;
+                alert('Produto Localizado!');
+            } else {
+                alert("O produto não existe");
+                dadoProduto.value = '';
+                dadoCategoria.value = '';
+                dadoQuantidade.value = '';
+                dadoValor.value = '';
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            alert('Algo deu errado na busca!');
+        });
+}
+
+function AtualizarProdutos(){
+    firebase.database().ref('Produtos/' + idProduto.value).update({
+        produto: dadoProduto.value,
+        categoria: dadoCategoria.value,
+        quantidade: parseInt(dadoQuantidade.value),
+        valor: parseFloat(dadoValor.value)
+    }).then(()=>{
+        alert('Produto Atualizado!');
+    }).catch((error)=>{
+        console.error(error);
+        alert('Algo deu errado na atualização!');
+    });
+}
+
+function DeletarProdutos(){
+    firebase.database().ref('Produtos/' + idProduto.value).remove()
+        .then(()=>{
+            idProduto.value = '';
+            dadoProduto.value = '';
+            dadoCategoria.value = '';
+            dadoQuantidade.value = '';
+            dadoValor.value = '';
+            alert('Produto Deletado!');
+        })
+        .catch((error)=>{
+            console.error(error);
+            alert('Algo deu errado ao deletar!');
+        });
+}
+
+
+function AddCliente(){
+    firebase.database().ref('Clientes/' + idCliente.value).set({
+        id: idCliente.value,
+        nome: nomeCliente.value,
+        email: emailCliente.value,
+        telefone: telefoneCliente.value
+    }).then(()=>{
+        idCliente.value = '';
+        nomeCliente.value = '';
+        emailCliente.value = '';
+        telefoneCliente.value = '';
+        alert("Cliente Cadastrado!");
+    }).catch((error)=>{
+        console.error(error);
+        alert('Cliente Não Cadastrado!');
+    });
+}
+
+function PesquisarCliente(){
+    firebase.database().ref('Clientes/' + buscarIdCliente.value).once('value')
+        .then((snapshot) => {
+            if(snapshot.exists()){
+                dadoNomeCliente.value = snapshot.val().nome;
+                dadoEmailCliente.value = snapshot.val().email;
+                dadoTelefoneCliente.value = snapshot.val().telefone;
+                alert('Cliente Localizado!');
+            } else {
+                alert("O cliente não existe");
+                dadoNomeCliente.value = '';
+                dadoEmailCliente.value = '';
+                dadoTelefoneCliente.value = '';
+            }
+        })
+        .catch((error) => {
+            console.error(error);
+            alert('Algo deu errado na busca!');
+        });
+}
+
+function AtualizarClientes(){
+    firebase.database().ref('Clientes/' + buscarIdCliente.value).update({
+        nome: dadoNomeCliente.value,
+        email: dadoEmailCliente.value,
+        telefone: dadoTelefoneCliente.value
+    }).then(()=>{
+        alert('Cliente Atualizado!');
+    }).catch((error)=>{
+        console.error(error);
+        alert('Algo deu errado na atualização!');
+    });
+}
+
+function DeletarClientes(){
+    firebase.database().ref('Clientes/' + buscarIdCliente.value).remove()
+        .then(()=>{
+            buscarIdCliente.value = '';
+            dadoNomeCliente.value = '';
+            dadoEmailCliente.value = '';
+            dadoTelefoneCliente.value = '';
+            alert('Cliente Deletado!');
+        })
+        .catch((error)=>{
+            console.error(error);
+            alert('Algo deu errado ao deletar!');
+        });
+}
+
+
+cadastrarProduto.addEventListener('click', AddProduto);
+buscarProduto.addEventListener('click', PesquisarProduto);
+atualizarProduto.addEventListener('click', AtualizarProdutos);
+deletarProduto.addEventListener('click', DeletarProdutos);
+
+
+cadastrarCliente.addEventListener('click', AddCliente);
+buscarCliente.addEventListener('click', PesquisarCliente);
+atualizarCliente.addEventListener('click', AtualizarClientes);
+deletarCliente.addEventListener('click', DeletarClientes);

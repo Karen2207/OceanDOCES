@@ -130,6 +130,28 @@ header {
     gap: 10px;
 }
 
+/* Estilo para os novos botões de gerenciamento */
+.navbar-auth #manageProductsButton,
+.navbar-auth #manageClientsButton {
+    background-color: #A36B9B;
+    color: #F8F0F3;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.95em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    /* Por padrão, oculto; JS irá exibi-los quando logado */
+    display: none;
+}
+
+.navbar-auth #manageProductsButton:hover,
+.navbar-auth #manageClientsButton:hover {
+    background-color: #8C5A86;
+    transform: translateY(-2px);
+}
+
 .user-dropdown {
     position: relative;
     display: inline-block;
@@ -407,24 +429,129 @@ footer p {
     font-size: 1.2em;
 }
 
+
+#productManagementContainer,
+#clientManagementContainer {
+    display: none;
+}
+
+.management-section {
+    display: flex;
+    justify-content: space-around;
+    gap: 40px;
+    padding: 40px 0;
+    flex-wrap: wrap;
+}
+
+.form-container {
+    max-width: 48%;
+    width: 100%;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 2em;
+    color: #A36B9B;
+}
+
+.form-container input[type="text"],
+.form-container input[type="number"],
+.form-container input[type="email"] {
+    width: calc(100% - 24px);
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #FFDAB9;
+    border-radius: 8px;
+    font-size: 1em;
+    box-sizing: border-box;
+    color: #5C3A4B;
+}
+
+.form-container input[type="text"]::placeholder,
+.form-container input[type="number"]::placeholder,
+.form-container input[type="email"]::placeholder {
+    color: #DDA0DD80;
+}
+
+.form-container input[type="submit"] {
+    background-color: #FFC0CB;
+    color: #5C3A4B;
+    cursor: pointer;
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 700;
+    font-size: 1.1em;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.form-container input[type="submit"]:hover {
+    background-color: #FFB6C1;
+    transform: translateY(-2px);
+}
+
+.form-container .button-search {
+    background-color: #0598dc;
+}
+
+.form-container .button-search:hover {
+    background-color: #047bbd;
+}
+
+.form-container .button-update {
+    background-color: #dcb105;
+}
+
+.form-container .button-update:hover {
+    background-color: #bd9d04;
+}
+
+.form-container .button-delete {
+    background-color: #dc0905;
+}
+
+.form-container .button-delete:hover {
+    background-color: #b50804;
+}
+
 @media (max-width: 992px) {
-    .navbar-brand h1 {
-        font-size: 1.8em;
+
+    .navbar-auth #manageProductsButton,
+    .navbar-auth #manageClientsButton {
+
+        display: none; 
     }
-    .navbar-categories li {
-        margin-right: 15px;
+
+
+    .navbar-links.active .navbar-auth #manageProductsButton,
+    .navbar-links.active .navbar-auth #manageClientsButton {
+        display: block !important; 
+        width: 100%;
+        margin-top: 10px;
     }
-    .navbar-search input {
-        width: 150px;
+
+    .management-section {
+        flex-direction: column;
+        align-items: center;
+    }
+    .form-container {
+        max-width: 90%;
+        margin-bottom: 30px;
     }
 }
 
 @media (max-width: 768px) {
-    .navbar {
-        flex-wrap: wrap;
-        justify-content: space-between;
+    .navbar-brand h1 {
+        font-size: 1.8em;
     }
-
     .menu-toggle {
         display: block;
         order: 2;
@@ -557,5 +684,19 @@ footer p {
     }
     .modal-content h2 {
         font-size: 1.5em;
+    }
+    .form-container {
+        padding: 20px;
+        max-width: 100%;
+    }
+    .form-container h1 {
+        font-size: 1.5em;
+    }
+    .form-container input[type="text"],
+    .form-container input[type="number"],
+    .form-container input[type="email"],
+    .form-container input[type="submit"] {
+        padding: 10px;
+        font-size: 0.95em;
     }
 }
